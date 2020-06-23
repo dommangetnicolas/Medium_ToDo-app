@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   tasks: {
     flex: 1,
+    marginTop: 30,
     marginHorizontal: "-5%",
     paddingHorizontal: "5%",
   },

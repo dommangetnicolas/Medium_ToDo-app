@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Alert } from "react-native";
 import { Text } from "../ui";
 import styles from "./Task.style";
 import ITask from "../../models/ITask";
+import moment from "moment";
 
 interface Props {
   item: ITask;
@@ -78,7 +79,7 @@ const Task: FunctionComponent<Props> = (props) => {
       <View style={styles.texts}>
         {done && <View style={styles.done} />}
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.date}>{createdAt.toString()}</Text>
+        <Text style={styles.date}>{moment(createdAt).format('LL')}</Text>
       </View>
     </TouchableOpacity>
   );
