@@ -22,7 +22,9 @@ const HomeScreen = () => {
         <FlatList
           style={styles.tasks}
           data={tasks}
-          renderItem={Task}
+          renderItem={({ item }) => (
+            <Task item={item} tasks={tasks} setTasks={setTasks} />
+          )}
           keyExtractor={(item: ITask) => item.id}
         />
       </View>

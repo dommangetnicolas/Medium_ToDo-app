@@ -1,25 +1,78 @@
-import React, { FunctionComponent } from "react";
-import { View } from "react-native";
+import React, { FunctionComponent, Dispatch, SetStateAction } from "react";
+import { View, TouchableOpacity, Alert } from "react-native";
 import { Text } from "../ui";
 import styles from "./Task.style";
 import ITask from "../../models/ITask";
 
 interface Props {
   item: ITask;
+  tasks: Array<ITask>;
+  setTasks: Dispatch<SetStateAction<ITask[]>>;
 }
 
 const Task: FunctionComponent<Props> = (props) => {
   const {
-    item: { title },
+    item,
+    item: { id, title, done, createdAt },
+    tasks,
+    setTasks,
   } = props;
 
+  const onDone = () => {
+    let newTasks = [...tasks];
+    const taskIdx = newTasks.findIndex((item) => item.id === id);
+
+    if (taskIdx === -1) return;
+
+    newTasks[taskIdx].done = !done;
+    setTasks(newTasks);
+  };
+
+  const onDelete = () => {
+    fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      let newTasks = [...tasks].filter((item) => item.id !== id);
+
+      setTasks(newTasks);
+    });
+  };
+
+  const onPress = () => {
+    Alert.alert(
+      title.toString(),
+      undefined,
+      [
+        {
+          text: "Done",
+          style: "default",
+          onPress: onDone,
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: onDelete,
+        },
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.texts}>
+        {done && <View style={styles.done} />}
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.date}>10/06</Text>
+        <Text style={styles.date}>{createdAt.toString()}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

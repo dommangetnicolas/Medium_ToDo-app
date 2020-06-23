@@ -25,6 +25,14 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
   },
+  done: {
+    alignSelf: "center",
+    marginRight: 10,
+    height: 15,
+    width: 15,
+    borderRadius: 15,
+    backgroundColor: colors.success,
+  },
   title: {
     fontWeight: "bold",
   },

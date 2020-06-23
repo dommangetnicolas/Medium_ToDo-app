@@ -34,6 +34,7 @@ const ComposeTask: FunctionComponent<Props> = (props) => {
       .then((res) => res.json())
       .then((json) => {
         setTasks([json.task, ...tasks]);
+        setTitle("");
       });
   };
 
