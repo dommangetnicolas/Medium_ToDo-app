@@ -24,8 +24,16 @@ const Task: FunctionComponent<Props> = (props) => {
 
     if (taskIdx === -1) return;
 
-    newTasks[taskIdx].done = !done;
-    setTasks(newTasks);
+    fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ done: !done }),
+    }).then(() => {
+      newTasks[taskIdx].done = !done;
+      setTasks(newTasks);
+    });
   };
 
   const onDelete = () => {
